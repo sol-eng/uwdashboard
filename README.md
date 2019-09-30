@@ -1,2 +1,5 @@
 # uwdashboard
-an example underwriting dashboard
+example of an underwriting dashboard
+
+## Files 
+app.R - shiny application

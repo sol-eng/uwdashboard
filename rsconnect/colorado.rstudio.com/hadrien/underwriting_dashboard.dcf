@@ -1,0 +1,12 @@
+name: underwriting_dashboard
+title: Underwriting Dashboard
+username: hadrien
+account: hadrien
+server: colorado.rstudio.com
+hostUrl: https://colorado.rstudio.com/rsc/__api__
+appId: 2890
+bundleId: 27234
+url: https://colorado.rstudio.com/rsc/content/2890/
+when: 1569448590.95844
+asMultiple: FALSE
+asStatic: FALSE
