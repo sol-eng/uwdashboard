@@ -1,4 +1,10 @@
-on: [push]
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
 
 name: Deploy Production
 
@@ -9,11 +15,16 @@ jobs:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@master
       - name: Download dependencies
+        env:
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          install.packages(c("piggyback", "remotes"))
+          install.packages(c("piggyback", "remotes", "pins"))
           remotes::install_github("rstudio/connectapi")
           piggyback::pb_download(file = "model_artifacts/toy-model.tar.gz", repo = "kasaai/cork")
           untar("model_artifacts/toy-model.tar.gz", exdir = "app")
+          pins::board_register_github(name = "cork", repo = "kasaai/cork")
+          testing_data <- pins::pin_get("toy-model-testing-data", board = "cork")
+          saveRDS(testing_data, "app/testing_data.rds")
         shell: Rscript {0}
       - name: Deploy
         env:

@@ -10,13 +10,8 @@ library(iBreakDown)
 library(reticulate)
 library(tensorflow)
 library(keras)
-library(pins)
 
-# Need to use the following branch of {ingredients}
-# remotes::install_github("kevinykuo/ingredients", ref = "weights")
-
-pins::board_register_github(name = "cork", repo = "kasaai/cork")
-testing_data <- pins::pin_get("toy-model-testing-data", board = "cork")
+testing_data <- readRDS("testing_data.rds")
 
 toy_model <- keras::load_model_tf("model_artifacts/toy-model")
 predictors <- c(
