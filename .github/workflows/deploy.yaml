@@ -2,9 +2,13 @@ on:
   push:
     branches:
     - master
+    paths:
+    - 'app/**'
   pull_request:
     branches:
     - master
+    paths:
+    - 'app/**'
 
 name: Deploy Production
 
