@@ -1,0 +1,26 @@
+on: [push]
+
+name: Deploy Production
+
+jobs:
+  deploy-prod:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: r-lib/actions/setup-r@master
+      - name: Download dependencies
+        run: |
+          install.packages(c("piggyback", "remotes"))
+          remotes::install_github("rstudio/connectapi")
+          piggyback::pb_download(file = "model_artifacts/toy-model.tar.gz", repo = "kasaai/cork")
+          untar("model_artifacts/toy-model.tar.gz", exdir = "app")
+        shell: Rscript {0}
+      - name: Deploy
+        env:
+          CONNECT_API_KEY: ${{ secrets.CONNECT_API_KEY }}
+        run: |
+          client <- connectapi::connect(host = "https://colorado.rstudio.com/rsc",
+                              api_key = Sys.getenv("CONNECT_API_KEY"))
+          bundle <- connectapi::bundle_dir("app")
+          content <- connectapi::deploy(client, bundle)
+        shell: Rscript {0}
