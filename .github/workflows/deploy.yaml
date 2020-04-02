@@ -4,13 +4,15 @@ on:
     - master
     paths:
     - 'app/**'
+    - '.github/workflows/**'
   pull_request:
     branches:
     - master
     paths:
     - 'app/**'
+    - '.github/workflows/**'
 
-name: Deploy Production
+name: Deploy
 
 jobs:
   deploy-prod:
@@ -49,7 +51,7 @@ jobs:
             github_ref <- Sys.getenv("GITHUB_REF")
             msg <- paste0("App preview deployed to ", content$get_dashboard_url(), ".")
             issue_number <- gsub("refs/pull/|/merge", "", github_ref)
-              gh::gh("POST /repos/:owner/:repo/issues/:issue_number/comments",
+            gh::gh("POST /repos/:owner/:repo/issues/:issue_number/comments",
               owner = "kasaai", repo = "uwdashboard", 
               issue_number = issue_number,
               body = msg)
