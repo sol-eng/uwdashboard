@@ -22,7 +22,7 @@ jobs:
         env:
           GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          install.packages(c("piggyback", "remotes", "pins"))
+          install.packages(c("piggyback", "remotes", "pins", "gh"))
           remotes::install_github("rstudio/connectapi")
           piggyback::pb_download(file = "model_artifacts/toy-model.tar.gz", repo = "kasaai/cork")
           untar("model_artifacts/toy-model.tar.gz", exdir = "app")
@@ -35,6 +35,7 @@ jobs:
           CONNECT_API_KEY: ${{ secrets.CONNECT_API_KEY }}
           EVENT_NAME: ${{ github.event_name }}
           COMMIT: ${{ github.sha }}
+          GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         run: |
           client <- connectapi::connect(host = "https://colorado.rstudio.com/rsc",
                               api_key = Sys.getenv("CONNECT_API_KEY"))
@@ -44,5 +45,13 @@ jobs:
             "Underwriting Dashboard"
           guid <- if (!is_pr) "ee35a016-31d2-4173-a16c-909d2a5fd581" else NULL
           content <- connectapi::deploy(client, bundle, name = app_name, guid = guid)
-          print(content$get_dashboard_url())
+          if (is_pr) {
+            github_ref <- Sys.getenv("GITHUB_REF")
+            msg <- paste0("App preview deployed to ", content$get_dashboard_url(), ".")
+            issue_number <- gsub("refs/pull/|/merge", "", github_ref)
+              gh::gh("POST /repos/:owner/:repo/issues/:issue_number/comments",
+              owner = "kasaai", repo = "uwdashboard", 
+              issue_number = issue_number,
+              body = msg)
+          }
         shell: Rscript {0}
