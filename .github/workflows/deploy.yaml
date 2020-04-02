@@ -46,7 +46,8 @@ jobs:
           app_name <- if (is_pr) paste0("uw_dashboard-", Sys.getenv("COMMIT")) else
             "Underwriting Dashboard"
           guid <- if (!is_pr) "ee35a016-31d2-4173-a16c-909d2a5fd581" else NULL
-          content <- connectapi::deploy(client, bundle, name = app_name, guid = guid)
+          content <- connectapi::deploy(client, bundle, name = app_name, guid = guid,
+                                        access_type = "all")
           if (is_pr) {
             github_ref <- Sys.getenv("GITHUB_REF")
             msg <- paste0("App preview deployed to ", content$get_dashboard_url(), ".")
