@@ -5,7 +5,7 @@
 # Underwriting Dashboard
 
 A project to demonstrate automated Shiny app deployment via [GitHub Actions](https://github.com/features/actions)
-and [RStudio Connect (RSC)](https://rstudio.com/products/connect/). The app is deployed at [https://colorado.rstudio.com/rsc/content/5218/](https://colorado.rstudio.com/rsc/content/5218/).
+and [RStudio Connect (RSC)](https://rstudio.com/products/connect/). The app is deployed at [https://colorado.rstudio.com/rsc/uw-dashboard](https://colorado.rstudio.com/rsc/uw-dashboard/).
 
 ## Content
 
