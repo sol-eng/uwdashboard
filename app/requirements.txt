@@ -17,7 +17,7 @@ Markdown==3.2.1
 numpy==1.18.2
 oauthlib==3.1.0
 opt-einsum==3.2.0
-protobuf==3.11.3
+protobuf==4.25.8
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
 requests==2.23.0
@@ -30,6 +30,6 @@ tensorboard==2.0.2
 tensorflow==2.0.1
 tensorflow-estimator==2.0.1
 termcolor==1.1.0
-urllib3==1.25.8
+urllib3==2.5.0
 Werkzeug==1.0.0
 wrapt==1.12.1
